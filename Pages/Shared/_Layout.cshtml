@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Cryptography</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Cryptography.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-collapse navbar-toggleable-sm border-bottom box-shadow mb-3 static-top">
+            <div class="container">
+                <a class="navbar-brand" style="border-radius: 10px; background-color: #FF6F00; color: black;" alt="Home Page" asp-area="" asp-page="/Home/Home">HCMUS-No1F</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1" >
+                        <li class="nav-item">
+                            <a style="color: #000000;" class="nav-link link-dark" asp-area="" asp-page="/Encrypt/Encrypt">Encrypt</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color: #000000;" class="nav-link link-dark" asp-page="/Decrypt/Decrypt">Decrypt</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color: #000000;" class="nav-link link-dark" asp-page="/Signature/Signature">Signature</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color: #000000;" class="nav-link link-dark" asp-page="/Authentication/Authentication">Authentication</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav flex-grow-1-reverse">
+                        <li class="flex-grow-1" style="margin: 0 20px;">
+                            <form action="/Login">
+                                <button class="btn btn-primary" type="submit" >Login</button>
+                            </form>
+                        </li>
+                        <li class="flex-grow-1">
+                            <form action="/Register">
+                                <button class="btn btn-secondary" type="submit">Register</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    @* <div class="container">
+        <main role="main" class="m-5 flex" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            @RenderBody()
+        </main>
+    </div> *@
+    <main role="main" class="m-5 flex">
+        @RenderBody()
+    </main>
+     <footer class="footer static-bottom" style="background-image: linear-gradient(to bottom,#F8A145, #d76c47);">
+        <div class="container">
+            <div class="col-lg-6 h-100 text-center text-lg-start my-auto">
+                <ul class="list-inline mb-2">
+                    <li class="list-inline-item"><a style="text-decoration: none; color: #000000; font-weight: 500;" asp-area="" asp-page="/About">About</a></li>
+                    <li class="list-inline-item">|</li>
+                    <li class="list-inline-item"><a style="text-decoration: none; color: #000000; font-weight: 500;" asp-area="" asp-page="/Contact">Contact</a></li>
+                    <li class="list-inline-item">|</li>
+                    <li class="list-inline-item"><a style="text-decoration: none; color: #000000; font-weight: 500;" asp-area="" asp-page="/ToU">Terms of Use</a></li>
+                    <li class="list-inline-item">|</li>
+                    <li class="list-inline-item"><a style="text-decoration: none; color: #000000; font-weight: 500;" asp-area="" asp-page="/Privacy">Privacy Policy</a></li>
+                </ul>
+                <p class="text-dark small mb-4 mb-lg-0">&copy; Cryptography - 2023. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

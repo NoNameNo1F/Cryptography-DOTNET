@@ -1,0 +1,74 @@
+@page "/Register"
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<section class="register">
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            <div class="col-lg-7 order-lg-2 register-img" style="background-image: url('bg-login.jpg')"></div>
+            <div class="col-lg-5 order-lg-1 my-auto register-text" style=" color: #ffffff">
+                <h2 class="fw-bold mb-5 text-center">REGISTER</h2>
+                <form class="form-input" method="POST">
+                    <!-- Email input -->
+                    <div class="form-outline mb-4">
+                        <label class="form-label">EMAIL</label>
+                        <input type="email" placeholder="Email@example.com" class="form-control" />
+                    </div>
+
+                    <!-- Password input -->
+                    <div class="form-outline mb-4">
+                        <label class="form-label">PASSWORD</label>
+                        <input type="password"  placeholder="New Password" autocomplete="new-password" class="form-control" />
+                    </div>
+
+                    <!-- Password input -->
+                    <div class="form-outline mb-4">
+                        <label class="form-label">RE - PASSWORD</label>
+                        <input type="password" placeholder="Retype New Password" autocomplete="new-password" class="form-control" />
+                    </div>
+
+                    <!-- Checkbox -->
+                    <div class="form-check d-flex justify-content-center mb-1">
+                        <input style="color: #d76c47;" class="form-check-input me-2" type="checkbox" value="" checked />
+                        <label class="form-check-label mt-3">
+                            Subscribe to our newsletter
+                        </label>
+                    </div>
+
+                    <!-- Submit button -->
+                    <div class="form-outline d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary">
+                            REGISTER
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* <section class="text-center">
+  <!-- Background image -->
+  <div class="p-5 bg-image" style="
+        background-image: url('https://mdbootstrap.com/img/new/textures/full/171.jpg');
+        height: 300px;
+        "></div>
+  <!-- Background image -->
+
+  <div class="card mx-4 mx-md-5 shadow-5-strong" style="
+        margin-top: -100px;
+        background: hsla(0, 0%, 100%, 0.8);
+        backdrop-filter: blur(30px);
+        ">
+    <div class="card-body py-5 px-md-5">
+
+      <div class="row d-flex justify-content-center">
+        <div class="col-lg-8">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</section> *@
