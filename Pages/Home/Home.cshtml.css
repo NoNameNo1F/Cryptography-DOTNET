@@ -1,0 +1,47 @@
+h1 {
+  color: #eeeeee;
+  font-size: 50px;
+  font-style:bold;
+  font-weight: 700;
+}
+section {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+section.containerHeader {
+    /* filter: blur(2px); */
+    position: relative;
+    background: url("bg-landing.jpg") no-repeat center center;
+    background-size:cover;
+    border-radius: 5px;
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+}
+ .header-text{
+  background: linear-gradient(to right,#d76c47, #F8A145);
+  text-align: center; 
+  border-width: 5px;
+  border-style: solid;
+  border-image: linear-gradient(to right,#5c14a4, #d32424) 30;
+}
+.header-text-h1{
+  color: #ffffff;
+  margin-bottom: 5px;
+}
+.col-lg-6.order-lg-2.showcase-img{
+  background-color: black;
+}
+
+.showcase .showcase-text {
+  padding: 3rem;
+}
+.showcase .showcase-img {
+  min-height: 30rem;
+  background-size: cover;
+  
+} 
+
+.showcase h2{
+  text-transform: uppercase;
+  font-size: 30px;
+  font-weight: 700;
+}
