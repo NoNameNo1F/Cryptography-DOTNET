@@ -1,9 +1,9 @@
 var builder = WebApplication.CreateBuilder(args);
 //Add model service
-builder.Services.AddSingleton<UserService>();
+// builder.Services.AddSingleton<UserService>();
 // Add services to the container.
 builder.Services.AddRazorPages();
-
+// Add mssql configuration
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

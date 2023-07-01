@@ -1,0 +1,50 @@
+@page "/Decrypt"
+@model DecryptModel
+@{
+    ViewData["Title"] = "Giải mã";
+}
+
+
+<partial name="_StatusMessage" for="StatusMessage" />
+<hr />
+<section class="decrypt">
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-lg-7 order-lg-2 decrypt-img" style="background-image: url('bg-login.jpg')"></div>
+            <div class="col-lg-5 order-lg-1 my-auto decrypt-text" style=" color: #ffffff">
+                <h2 class="fw-bold mb-5 text-center " style="color: #FF6F00">@ViewData["Title"]</h2>
+                <form class="form-input" method="POST" enctype="multipart/form-data" asp-page="/Decrypt/Decrypt">
+                    <!-- File input -->
+                    <div class="form-outline mb-4">
+                        <label class="form-label" asp-for="FileUpload"></label>
+                        <input class="form-control" asp-for="FileUpload" />
+                        <span class="message-pop" asp-validation-for="FileUpload"></span>
+                    </div>
+                    <div class="form-outline mb-4">
+                        <label class="form-label" asp-for="KeyDecrypt"></label>
+                        <input class="form-control" asp-for="KeyDecrypt" />
+                        <span class="message-pop" asp-validation-for="KeyDecrypt"></span>
+                    </div>
+                    <div class="form-outline d-flex justify-content-center mb-4">
+                        <button class="btn btn-primary" type="submit" >Giải mã</button>
+                    </div>
+                </form>
+                <div class="form-label d-flex justify-content-right mb-4">
+                    <!-- Simple link -->
+                    <label>
+                        <a asp-area="" asp-page="/Home/Home" style="text-decoration: none; color: #d76c47; ">Quay lại danh sách</a>
+                    </label>
+                </div>
+                <div class="form-label d-flex justify-content-center mb-4">
+                    <label>
+                        Đã mã hóa file ? <a asp-area="" asp-page="/Download/Download" style="text-decoration: none; color: #fdff2a; "> Chuyển tới trang Download</a>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
