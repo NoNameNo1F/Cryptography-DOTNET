@@ -10,38 +10,30 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-collapse navbar-toggleable-sm border-bottom box-shadow mb-3 static-top">
+        <nav class="navbar navbar-expand-lg navbar-light navbar-toggleable-sm border-bottom box-shadow mb-3 static-top">
             <div class="container">
-                <a class="navbar-brand" style="border-radius: 10px; background-color: #FF6F00; color: black;" alt="Home Page" asp-area="" asp-page="/Home/Home">HCMUS-No1F</a>
+                <a class="navbar-brand" style="border-radius: 10px; background-color: #FF6F00; color: black; padding-right: 0.2rem;
+  padding-left: 0.2rem;" alt="Home Page" asp-area="" asp-page="/Home/Home">HCMUS-No1F</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                        aria-expanded="true" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="navbar-collapse collapse d-lg-inline-flex justify-content-center">
                     <ul class="navbar-nav flex-grow-1" >
                         <li class="nav-item">
-                            <a style="color: #000000;" class="nav-link link-dark" asp-area="" asp-page="/Encrypt/Encrypt">Encrypt</a>
+                            <a style="color: #000000;" class="nav-link" asp-page="/Login/Login">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a style="color: #000000;" class="nav-link link-dark" asp-page="/Decrypt/Decrypt">Decrypt</a>
+                            <a style="color: #000000;" class="nav-link" asp-page="/Register/Register">Register</a>
                         </li>
                         <li class="nav-item">
-                            <a style="color: #000000;" class="nav-link link-dark" asp-page="/Signature/Signature">Signature</a>
+                            <a style="color: #000000;" class="nav-link" asp-page="/Encrypt/Encrypt">Encrypt</a>
                         </li>
                         <li class="nav-item">
-                            <a style="color: #000000;" class="nav-link link-dark" asp-page="/Authentication/Authentication">Authentication</a>
+                            <a style="color: #000000;" class="nav-link" asp-page="/Decrypt/Decrypt">Decrypt</a>
                         </li>
-                    </ul>
-                    <ul class="navbar-nav flex-grow-1-reverse">
-                        <li class="flex-grow-1" style="margin: 0 20px;">
-                            <form action="/Login">
-                                <button class="btn btn-primary" type="submit" >Login</button>
-                            </form>
-                        </li>
-                        <li class="flex-grow-1">
-                            <form action="/Register">
-                                <button class="btn btn-secondary" type="submit">Register</button>
-                            </form>
+                        <li class="nav-item">
+                            <a style="color: #000000;" class="nav-link" asp-page="/Download/Download">Download</a>
                         </li>
                     </ul>
                 </div>
