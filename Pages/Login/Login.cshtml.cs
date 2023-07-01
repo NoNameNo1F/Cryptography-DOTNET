@@ -7,14 +7,14 @@ public class LoginModel : PageModel
 {
     private readonly ILogger<LoginModel> _logger;
 
-    public readonly UserService userService;
-    public LoginModel(ILogger<LoginModel> logger, UserService _userService)
+   // public readonly UserService userService;
+    public LoginModel(ILogger<LoginModel> logger) //, UserService _userService
     {
         _logger = logger;
-        userService = _userService;
+        // userService = _userService;
     }
 
-    public User user { get; set; }
+    // public User user { get; set; }
     public void OnGet(int? id)
     {
     //     if( id != null){
