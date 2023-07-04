@@ -13,9 +13,10 @@ Maybe you can mention me or this repo in the acknowledgements too
 Webapp used to Encrypt, Decrypt , Digital Sign and Authorization based on ASP.NET 
   <p>
     This is project about encryption and decryption file using ASP.NET with fully support of microsoft library System.Cryptography.Security
-    Author: Nguyễn Cao Nam Vũ - 20127670
   </p>
-
+   <p> 
+     Author: Nguyễn Cao Nam Vũ - 20127670
+  </p>
   <p>
     Webapp used to Encrypt, Decrypt based on ASP.NET
   </p>
@@ -83,8 +84,18 @@ Webapp used to Encrypt, Decrypt , Digital Sign and Authorization based on ASP.NE
 
 ### :camera: Screenshots
 
+#### :Cách Hoạt Động
 <div aligns="center"> 
   <img src="./wwwroot/bg-showcase.png" alt="Model" />
+</div>
+
+#### :Mã Hóa
+<div aligns="center"> 
+  <img src="./wwwroot/bg-encrypt.jpg" alt="Model" />
+</div>
+#### :Giải Mã
+<div aligns="center"> 
+  <img src="./wwwroot/bg-decrypt.jpg" alt="Model" />
 </div>
 
 <!-- TechStack -->
