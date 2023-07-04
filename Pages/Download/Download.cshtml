@@ -5,7 +5,6 @@
     ViewData["Title"] = "Tải tập tin";
 }
 
-<partial name="_StatusMessage" for="StatusMessage" />
 
 <hr />
 <section class="download">
@@ -40,16 +39,16 @@
                 
                 <!-- File PLAINTEXT -->
                 @{
-                    string[] files = Directory.GetFiles("./wwwroot/uploads");
+                    string[] files = Directory.GetFiles("./wwwroot/decrypted");
                     for(int i = 0; i < files.Length; i++){
                         files[i] = "./" + files[i].Substring(10);
                     }
                 }
                 @foreach (string file in files)
                 {
-                    <a class="file-link mb-4" href="@file" download> Tải file @file.Substring(10)</a>
+                    <a class="file-link mb-4" href="@file" download> Tải file @file.Substring(12)</a>
                     <form class="form-output mb-4" method="GET" action="@file">
-                        <button class="btn btn-primary" type="submit">Nhấn vào đây để xem file @file.Substring(10)</button>
+                        <button class="btn btn-primary" type="submit">Nhấn vào đây để xem file @file.Substring(12)</button>
                     </form>
                     <hr />
                 }
