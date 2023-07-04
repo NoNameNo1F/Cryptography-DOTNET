@@ -1,26 +1,16 @@
-﻿@page
+﻿@page "/404NotFound"
 @model ErrorModel
 @{
     ViewData["Title"] = "Error";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
 
-@if (Model.ShowRequestId)
-{
-    <p>
-        <strong>Request ID:</strong> <code>@Model.RequestId</code>
-    </p>
-}
+<h1 class="text-center text-danger">
+    <strong>404 Not Found</strong>
+    Không tìm thấy tài nguyên truy cập. Nhấn vào đây để quay lại HomePage
+</h1>
 
-<h3>Development Mode</h3>
-<p>
-    Swapping to the <strong>Development</strong> environment displays detailed information about the error that occurred.
-</p>
-<p>
-    <strong>The Development environment shouldn't be enabled for deployed applications.</strong>
-    It can result in displaying sensitive information from exceptions to end users.
-    For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
-    and restarting the app.
-</p>
+<h1 class="text-center mt-5">
+    <a asp-page="/Home/Home" style="text-decoration: none; color: orange">Quay lại</a>
+</h1>
+
