@@ -48,3 +48,30 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+@* @model string
+@{
+    //string file = "./keysaver/" + Model.Split(' ')[1] + "-key.txt";
+    string file = "./keysaver/Task.txt-key.txt";
+    //file = "./keysaver/" + file + "-key.txt";
+}
+
+@if (!String.IsNullOrEmpty(Model))
+{
+    if(Model.StartsWith("Error")){
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            @Model
+        </div>
+    }
+    else{
+
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            @Model
+            
+            <h2 class="fw-bold mb-5 mt-5 text-center " style="color: #FF6F00">NHẤN VÀO ĐÂY ĐỂ TẢI KEY XUỐNG</h2>
+            <hr />
+            <a class="file-link mb-4" styles="underline: none; b" href="@file" download> Tải key</a>
+        </div>
+    }
+} *@

@@ -3,7 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
+using System.IO;
+using System.Text.Json;
 namespace Cryptography.Pages {
+    public class JsonFile {
+        public string Kx { get; set; }
+        public string IV { get; set; }
+        public string HKPrivate { get; set; }
+    }
     public class DecryptModel : PageModel
     {
             // Khai báo môi trường để lưu file 
@@ -13,25 +20,21 @@ namespace Cryptography.Pages {
         }
         [BindProperty]
         [DataType(DataType.Upload)]
-        // [FileExtensions(Extensions ="jpg, png, gif, jpeg")]
         [Required(ErrorMessage = "Cần có {0} để mã hóa ")]
         [Display(Name = "File Mã Hóa")]
         public IFormFile FileUpload { get; set; } // la chuỗi , nên cái đuôi ảnh kia ngu vl
 
 
         [BindProperty]
-        [DataType(DataType.Text)]
-        // [FileExtensions(Extensions ="jpg, png, gif, jpeg")]
+        [DataType(DataType.Upload)]
         [Required(ErrorMessage = "Cần có {0} để giải mã ")]
         [Display(Name = "Key Mã Hóa")]
-        public string KeyDecrypt { get; set; } 
+        public IFormFile KeyDecrypt { get; set; }
 
-        [Display(Name = "Khóa AES")]
-        public string AESKey { get; set; } 
 ////////////////////////////////////////// DECRYPTING FILE ///////////////////////////////////
         public void DecryptFile(string inputFile, string outputFile, byte[] Key, byte[] IV)
         {
-            // Check arguments.
+            // Kiểm tra tham số 
             if (inputFile == null || inputFile.Length <= 0)
                 throw new ArgumentNullException("inputFile");
             if (outputFile == null || outputFile.Length <= 0)
@@ -41,17 +44,14 @@ namespace Cryptography.Pages {
             if (IV == null || IV.Length <= 0)
                 throw new ArgumentNullException("IV");
 
-            // Create an Aes object with the specified key and IV.
+            // Tạo key Aes với IV 
             using (Aes aesAlg = Aes.Create())
             {
-                aesAlg.Key = Key;
-                aesAlg.IV = IV;
 
                 // Create an encryptor to perform the stream transform.
-                ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
-                
+                // Khởi tạo encryptor để tiến hành thay đổi stream.
+                ICryptoTransform decryptor = aesAlg.CreateDecryptor(Key, IV);
 
-                // Create the streams used for encryption.
                 using (FileStream fsInput = new FileStream(inputFile, FileMode.Open, FileAccess.Read))
                 using (FileStream fsOutput = new FileStream(outputFile, FileMode.Create))
                 using (CryptoStream csDecrypt = new CryptoStream(fsOutput, decryptor, CryptoStreamMode.Write))
@@ -62,116 +62,97 @@ namespace Cryptography.Pages {
             }
         }
 
-        public string DecryptStringFromBytes_Aes(byte[] cipherText, byte[] Key, byte[] IV)
-        {
-            // Check arguments.
-            if (cipherText == null || cipherText.Length <= 0)
-                throw new ArgumentNullException("cipherText");
-            if (Key == null || Key.Length <= 0)
-                throw new ArgumentNullException("Key");
-            if (IV == null || IV.Length <= 0)
-                throw new ArgumentNullException("IV");
-
-            // Declare the string used to hold
-            // the decrypted text.
-            string plaintext = null;
-
-            // Create an Aes object
-            // with the specified key and IV.
-            using (Aes aesAlg = Aes.Create())
-            {
-                aesAlg.Key = Key;
-                aesAlg.IV = IV;
-
-                // Create a decryptor to perform the stream transform.
-                ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
-
-                // Create the streams used for decryption.
-                using (MemoryStream msDecrypt = new MemoryStream(cipherText))
-                {
-                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
-                    {
-                        using (StreamReader srDecrypt = new StreamReader(csDecrypt))
-                        {
-
-                            // Read the decrypted bytes from the decrypting stream
-                            // and place them in a string.
-                            plaintext = srDecrypt.ReadToEnd();
-                        }
-                    }
-                }
-            }
-
-            return plaintext;
-        }
-        ////////////////////////////////////////// ENCRYPTING FILE ///////////////////////////////////
+      
         public string StatusMessage { get; set; } ="";
         public IActionResult OnGet()
         {
             return Page();
         }
 
-        // public async Task<IActionResult> OnPostAsync(){
         public void OnPost(){
-        // public void OnPost(){
+            
             if (ModelState.IsValid == true)
             {
-
-                //_environment.WebRootPath
-                //FileUpload.FileName
+                // Declare Variables
                 bool flag = false;
-                if(FileUpload != null){
-                    flag = true;
-                    var filepath = Path.Combine(_environment.WebRootPath, "uploads", FileUpload.FileName);
-                    // tạo biên lưu filestream , file mode, tạo stream để đỗ dữ liệu vào
-                    using var filestream = new FileStream(filepath, FileMode.Create);
-                    // Binding dữ liệu đến
-                    FileUpload.CopyTo(filestream);
-                    filestream.Close();
-                }
-                if(flag){
-                    var filePath = Path.Combine(_environment.WebRootPath, "uploads", FileUpload.FileName);
-                    var fileEncryptPath = Path.Combine(_environment.WebRootPath, "encrypted", FileUpload.FileName);
-                    using (Aes myAes = Aes.Create())
-                    {
-                        DecryptFile(filePath, fileEncryptPath, myAes.Key , myAes.IV);
-                        AESKey = System.Text.Encoding.Default.GetString(myAes.Key);
+                JsonFile json = new JsonFile();
+                byte[] privateKey = new byte[0];
+
+                // Kiem tra privateKey Hash co giong voi trong keysaver ko
+                if(KeyDecrypt != null){
+                    //using (FileStream fsKey = new FileStream(File.ReadAllBytes(KeyDecrypt)
+                    // Doc PrivateKey tu file 
+                    string keyStr = new StreamReader(KeyDecrypt.OpenReadStream()).ReadToEnd();
+                    
+                    // Decode tu Base64 ve byte[]
+                    privateKey = Convert.FromBase64String(keyStr);
+                    // Hash private Key SHA-1
+                    byte[] HashPrivateKey = SHA1.HashData(privateKey);
+                    
+                    //////////////////////// Kiem tra Hash Co giong nhau khong ////////////////
+                    // Lay Hash tu trong keysaver
+                    string fileStoreKey = Path.Combine(_environment.WebRootPath, "keysaver", FileUpload.FileName + "-metadata.json");
+                    string keyStoredDb = System.IO.File.ReadAllText(fileStoreKey);
+                    // Class JsonFile gom Kx va HKPrivate
+                    json = JsonSerializer.Deserialize<JsonFile>(keyStoredDb);
+                    byte[] loadKey = Convert.FromBase64String(json.HKPrivate);
+                    // Kiem tra HashPrivateKey
+                    // Console.WriteLine(loadKey);
+                    // Console.WriteLine(HashPrivateKey);
+                    if(json.HKPrivate ==  Convert.ToBase64String(HashPrivateKey)) { // Đúng Key Private{
+                        // Đặt lại điều kiện để đi giải mã file
+                        flag = true;
+                    }
+                    else{
+                        throw new ArgumentNullException(json.HKPrivate + " != " + Convert.ToBase64String(HashPrivateKey));
                     }
                 }
-                /////////////////////////==FLOW HANDLE==///////////////////////
-                // Sinh khóa AES
-                // CryptoConfig cc = new CryptoConfig();
-                // Aes aes = Aes.Create();
-            //     using (Aes myAes = Aes.Create())
-            // {
+                if(FileUpload != null && flag == true){
+                    var filePath = Path.Combine(_environment.WebRootPath, "uploads", FileUpload.FileName);
+                    // tạo biên lưu filestream , file mode, tạo stream để đỗ dữ liệu vào
+                    using var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+                    // Binding dữ liệu đến
+                    FileUpload.CopyTo(fs);
+                    fs.Close();
+                }
+                // Key
+                
+                if(flag){
+                    // Tạo đường dẫn để lấy file bị mã, và lưu file giải mã
+                    string fileEncryptPath = Path.Combine(_environment.WebRootPath, "uploads", FileUpload.FileName);
+                    string fileDecryptPath = Path.Combine(_environment.WebRootPath, "decrypted", FileUpload.FileName);
 
-            //     // Encrypt the string to an array of bytes.
-            //     byte[] encrypted = EncryptStringToBytes_Aes(original, myAes.Key, myAes.IV);
+                    //////////////////////// Giải Kx để lấy lại AESKey ////////////////
+                    // Tham số cần : 
+                    // PrivateKey: privateKey byte[]
+                    // Kx :        json.Kx    string
+                    byte[] KxBytes = Convert.FromBase64String(json.Kx);
+                    byte[] Ks = new byte[0];
 
-            //     // Decrypt the bytes to a string.
-            //     string roundtrip = DecryptStringFromBytes_Aes(encrypted, myAes.Key, myAes.IV);
+                    byte[] IVBytes = Convert.FromBase64String(json.IV);
 
-            //     //Display the original data and the decrypted data.
-            //     Console.WriteLine("Original:   {0}", original);
-            //     var str = System.Text.Encoding.Default.GetString(encrypted);
-            //     Console.WriteLine("Encrypted: {0}", str);
-            //     Console.WriteLine("Round Trip: {0}", roundtrip);
-            // }
-                // Mã hóa File với AES
-                // Lưu file vào folder ./encrypted
-                // Sinh khóa PubKey va PrivateKey 
-                // Mã AES key bằng PubKey ==> Kx
-                // Dùng SHA-1 Hash PrivateKey ==>HKPrivate
-                // lưu json 2 key trên vào 1 file {"Kx": ???,"HKPrivate: ???"}
-                // He thong xuat ra PrivateKey
-                /////////////////////////==FLOW HANDLE==///////////////////////
-                // return RedirectToPage("/Download/Download");
-                StatusMessage = "Key của bạn là: " + AESKey;
-                RedirectToPage("/Download/Download");
+                    using (RSA rsa = RSA.Create()){
+                        rsa.ImportRSAPrivateKey(privateKey, out _);
+                        // RSAParameters privateKeyParameters = 
+                        // Giải mã Ks
+                        Ks = rsa.Decrypt(KxBytes, RSAEncryptionPadding.OaepSHA256);
+                    }
+                    // Giải mã file với Ks
+                    using (Aes myAes = Aes.Create())
+                    {
+                        myAes.IV = IVBytes;
+                        myAes.Key = Ks;
+                        DecryptFile(fileEncryptPath, fileDecryptPath, myAes.Key, myAes.IV);
+                    }
+                    // Xóa file upload 
+                    System.IO.File.Delete(fileEncryptPath);
+                }
+                
+                StatusMessage = "File Của bạn đã được giải mã";
+                //RedirectToPage("/Download/Download");
             }
             else{
                 StatusMessage = "Dữ liệu gửi đến chưa phù hợp";
-                // return RedirectToPage("/Download/Download");
             }
         }
     }
