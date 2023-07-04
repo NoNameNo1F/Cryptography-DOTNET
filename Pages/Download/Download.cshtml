@@ -1,0 +1,76 @@
+@page "/Download"
+@model DownloadModel
+
+@{
+    ViewData["Title"] = "Tải tập tin";
+}
+
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<hr />
+<section class="download">
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-lg-7 order-lg-2 download-img" style="background-image: url('bg-login.jpg')"></div>
+            <div class="col-lg-5 order-lg-1 my-auto download-text" style=" color: #ffffff">
+
+                <h2 class="fw-bold mb-5 mt-5 text-center " style="color: #FF6F00">TẬP TIN ĐÃ BỊ MÃ</h2>
+                <!-- File ENCRYPTED -->
+                @{
+                    string[] en_files = Directory.GetFiles("./wwwroot/encrypted");
+                    for(int i = 0; i < en_files.Length; i++){
+                        en_files[i] = "./" + en_files[i].Substring(10);
+                    }
+                }
+                @foreach (string file in en_files)
+                {
+                    <a class="file-link mb-4" href="@file" download> Tải file @file.Substring(12)</a>
+                    <form class="form-output mb-4" method="GET" action="@file">
+                        <button class="btn btn-primary mb-4" type="submit">Nhấn vào đây để xem file @file.Substring(12)</button>
+                    </form>
+                    <hr />
+                }
+                <div class="form-label d-flex justify-content-center mb-4">
+                    <label class="form-label d-flex">
+                        File bạn đã bị mã hóa ? <a asp-area="" asp-page="/Decrypt/Decrypt" style="text-decoration: none; color: #fdff2a"> Chuyển tới trang Giải mã</a>
+                    </label>
+                </div>
+
+                <h2 class="fw-bold mb-5 text-center " style="color: #FF6F00">TẬP TIN CHƯA MÃ HÓA</h2>
+                
+                <!-- File PLAINTEXT -->
+                @{
+                    string[] files = Directory.GetFiles("./wwwroot/uploads");
+                    for(int i = 0; i < files.Length; i++){
+                        files[i] = "./" + files[i].Substring(10);
+                    }
+                }
+                @foreach (string file in files)
+                {
+                    <a class="file-link mb-4" href="@file" download> Tải file @file.Substring(10)</a>
+                    <form class="form-output mb-4" method="GET" action="@file">
+                        <button class="btn btn-primary" type="submit">Nhấn vào đây để xem file @file.Substring(10)</button>
+                    </form>
+                    <hr />
+                }
+
+                <div class="form-label d-flex justify-content-center mb-4">
+                    <!-- Simple link -->
+                    <label>
+                        <a asp-area="" asp-page="/Home/Home" style="text-decoration: none; color: #d76c47; ">Quay lại danh sách</a>
+                    </label>
+                </div>
+                <div class="form-label d-flex justify-content-center mb-4">
+                    <label>
+                        Bạn có muốn mã hóa file ? <a asp-area="" asp-page="/Encrypt/Encrypt" style="text-decoration: none; color: #fdff2a"> Chuyển tới trang Mã hóa</a>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<hr />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

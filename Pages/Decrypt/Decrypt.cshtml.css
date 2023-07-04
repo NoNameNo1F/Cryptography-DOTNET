@@ -4,17 +4,17 @@ section {
 }
 
 
-.encrypt-text {
+.decrypt-text {
     background: #1d0600;
     padding: 2rem;
     font: 30px/30px DIN_Bold,Arial,Verdana,sans-serif;
   }
-.encrypt-img {
+.decrypt-img {
     min-height: 30rem;
     background-size: cover;
   }
   @media (min-width: 768px) {
-    .encrypt-text {
+    .decrypt-text {
       padding: 7rem;
     }
   }

@@ -2,64 +2,16 @@
 @model LoginModel
 @{
     ViewData["Title"] = "Login";
-    var user = Model.user;
-    var users = Model.userService.AllUsers();
+    //var user = Model.user;
+    //var users = Model.userService.AllUsers();
 }
-@if(user == null){
-    <section class="login">
-        <div class="container-fluid p-0">
-            <div class="row g-0">
-                <div class="col-lg-7 order-lg-2 login-img" style="background-image: url('bg-login.jpg')"></div>
-                <div class="col-lg-5 order-lg-1 my-auto login-text" style=" color: #ffffff">
-                    <h2 class="fw-bold mb-5 text-center">LOGIN</h2>
-                    <form class="form-input" method="POST" asp-page="/Login/Login">
-                        <!-- Email input -->
-                        <div class="form-outline mb-4">
-                            <label class="form-label">EMAIL</label>
-                            <input type="email" placeholder="Email@example.com" class="form-control" />
-                        </div>
-
-                        <!-- Password input -->
-                        <div class="form-outline mb-4">
-                            <label class="form-label">PASSWORD</label>
-                            <input type="password" placeholder="Password" class="form-control" />
-                        </div>
-                        <div class="form-label d-flex justify-content-center mb-4">
-                            <!-- Simple link -->
-                            <label>
-                                <a asp-area="" asp-page="/Register/Register" style="text-decoration: none; color: #d76c47; ">Forgotten password?</a>
-                            </label>
-                        </div>
-                        <!-- Submit button -->
-                        <div class="form-outline d-flex justify-content-center mb-3">
-                            <button type="submit" class="btn btn-primary">
-                                LOGIN
-                            </button>
-                        </div>
-                        <!-- Register buttons -->
-                        <div class="form-label d-flex justify-content-center mb-4">
-                            <label>
-                                Not a member? <a asp-area="" asp-page="/Register/Register" style="text-decoration: none; color: #d76c47;">Register</a>
-                            </label>
-                        </div>
-                        <div class="form-label d-flex justify-content-center mb-4">
-                            <label style="color: transparent;">
-                                Hidden account: n0n4me/4dm1n
-                            </label>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-}
-@* <section class="login">
+<section class="login">
     <div class="container-fluid p-0">
-        <div class="row g-0">
+        <div class="row">
             <div class="col-lg-7 order-lg-2 login-img" style="background-image: url('bg-login.jpg')"></div>
             <div class="col-lg-5 order-lg-1 my-auto login-text" style=" color: #ffffff">
                 <h2 class="fw-bold mb-5 text-center">LOGIN</h2>
-                <form class="form-input">
+                <form class="form-input" method="POST" asp-page="/Login/Login">
                     <!-- Email input -->
                     <div class="form-outline mb-4">
                         <label class="form-label">EMAIL</label>
@@ -98,4 +50,4 @@
             </div>
         </div>
     </div>
-</section> *@
+</section>

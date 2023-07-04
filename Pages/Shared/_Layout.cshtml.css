@@ -13,7 +13,6 @@ body .navbar{
 a{
   color: #000 !important;
 }
-
 .btn-primary, .btn-secondary {
   position: absolute;
   z-index: -1;
