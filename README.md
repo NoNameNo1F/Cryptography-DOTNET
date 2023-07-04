@@ -85,15 +85,19 @@ Webapp used to Encrypt, Decrypt , Digital Sign and Authorization based on ASP.NE
 ### :camera: Screenshots
 
 #### :Cách Hoạt Động
+
 <div aligns="center"> 
   <img src="./wwwroot/bg-showcase.png" alt="Model" />
 </div>
 
 #### :Mã Hóa
+
 <div aligns="center"> 
   <img src="./wwwroot/bg-encrypt.jpg" alt="Model" />
 </div>
+
 #### :Giải Mã
+
 <div aligns="center"> 
   <img src="./wwwroot/bg-decrypt.jpg" alt="Model" />
 </div>
