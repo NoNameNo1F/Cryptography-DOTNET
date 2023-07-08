@@ -1,0 +1,54 @@
+@page "/Module1"
+@model Module1Model
+@{
+    ViewData["Title"] = "Module1: Tạo Khóa AES";
+    
+}
+
+<partial name="_StatusMessage" for="StatusMessage" />
+@* <partial name ="_FormDownloadKey" for="StatusMessage"/> *@
+<hr />
+<section class="module">
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-lg-5 order-lg-1 module-img" style="background-image: url('bg-login.jpg')"></div>
+            <div class="col-lg-7 order-lg-2 module-text" style=" color: #ffffff">
+                <h2 class="fw-bold mb-5 text-center " style="color: #FF6F00">@ViewData["Title"]</h2>
+                <form class="form-input" method="POST" enctype="multipart/form-data" asp-page="/Module/Module1" >
+                    <div class="form-outline mb-4">
+                        <div class="form-outline d-flex justify-content-center mb-4 mt-4">
+                            <button class="btn btn-primary" type="submit" >Tạo khóa</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="row mb-4">
+                    <div class="col-6">
+                        <div class="form-label d-flex justify-content-center">
+                            <label>
+                                <a asp-area="" asp-page="/Home/Home" style="text-decoration: none; color: #d76c47; ">Quay lại danh sách</a>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-label d-flex justify-content-center ">
+                            <label>
+                                <a asp-area="" asp-page="/Module/Module" style="text-decoration: none; color: #F8A145; ">Chọn Module khác</a>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-label d-flex justify-content-center mb-4">
+                    <label>
+                        Đã mã hóa file ? <a asp-area="" asp-page="/Download/Download" style="text-decoration: none; color: #fdff2a; "> Chuyển tới trang Download</a>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
