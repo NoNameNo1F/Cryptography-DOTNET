@@ -1,0 +1,63 @@
+@page "/Module"
+@model ModuleModel
+
+@{
+    ViewData["Title"] = "Module-Các-Chức-Năng";
+}
+
+
+@* <partial name="_StatusMessage" for="StatusMessage" /> *@
+<partial name ="_FormDownloadKey" for="StatusMessage"/>
+<hr />
+<section class="module">
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-lg-5 order-lg-1 module-text" style="background-color: #f4b69b">
+                <h2 class="fw-bold mb-5 text-center " style="color: #FF6F00">Yêu cầu</h2>
+                <h5 class="fw-bold mb-3 text-left">Module-1: Tạo AES Key</h5>
+                <h5 class="fw-bold mb-3 text-left">Module-2: Chọn File cần mã hóa</h5>
+                <h5 class="fw-bold mb-3 text-left">Module-3: Chọn File Đã mã hóa và đưa file chứa key vào để giải</h5>
+                <h5 class="fw-bold mb-3 text-left">Module-4: Tạo RSA Key</h5>
+                <h5 class="fw-bold mb-3 text-left">Module-5: Truyền chuỗi cần mã</h5>
+                <h5 class="fw-bold mb-3 text-left">Module-6: Truyền chuỗi bị mã và khóa privateKey</h5>
+                <h5 class="fw-bold mb-3 text-left">Module-7: Truyền chuỗi cần tính Hash-256</h5>
+            </div>
+            <div class="col-lg-7 order-lg-2 module-text" style=" color: #ffffff">
+                <h2 class="fw-bold mb-5 text-center " style="color: #FF6F00">@ViewData["Title"]</h2>
+                <form class="form-input" method="POST" enctype="multipart/form-data" asp-page="/Module/Module">
+                    <div class="form-outline mb-4">
+                        <label class="form-label">Lựa chọn Module:</label>
+                        <select class="form-control" list="moduleOps" name="moduleOp" id="moduleOp" onchange="handleOnchange();">
+                            <option value="Module-1"> Tạo AES Key</option>
+                            <option value="Module-2"> Mã hóa file </option>
+                            <option value="Module-3"> Giải mã file</option>
+                            <option value="Module-4">Tạo RSA Key</option>
+                            <option value="Module-5"> Mã chuỗi </option>
+                            <option value="Module-6"> Giải mã chuỗi</option>
+                            <option value="Module-7"> Hash SHA-256 chuỗi</option>
+                        </select>
+                        <div class="form-outline d-flex justify-content-center mb-4 mt-4">
+                          <button class="btn btn-primary" type="submit">Chọn Module</button>  
+                        </div>
+                        <h1></h1>
+                    </div>
+                </form>
+                <div class="form-label d-flex justify-content-right mb-4">
+                    <!-- Simple link -->
+                    <label>
+                        <a asp-area="" asp-page="/Home/Home" style="text-decoration: none; color: #d76c47; ">Quay lại danh sách</a>
+                    </label>
+                </div>
+                <div class="form-label d-flex justify-content-center mb-4">
+                    <label>
+                        Đã mã hóa file ? <a asp-area="" asp-page="/Download/Download" style="text-decoration: none; color: #fdff2a; "> Chuyển tới trang Download</a>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
