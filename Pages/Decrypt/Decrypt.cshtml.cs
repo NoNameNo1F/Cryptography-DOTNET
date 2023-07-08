@@ -20,18 +20,20 @@ namespace Cryptography.Pages {
         }
         [BindProperty]
         [DataType(DataType.Upload)]
-        [Required(ErrorMessage = "Cần có {0} để mã hóa ")]
-        [Display(Name = "File Mã Hóa")]
-        public IFormFile FileUpload { get; set; } // la chuỗi , nên cái đuôi ảnh kia ngu vl
+        [Required(ErrorMessage = "Cần có {0} để giải mã ")]
+        [Display(Name = "File Bị Mã Hóa")]
+        public IFormFile FileUpload { get; set; }
 
 
         [BindProperty]
         [DataType(DataType.Upload)]
         [Required(ErrorMessage = "Cần có {0} để giải mã ")]
-        [Display(Name = "Key Mã Hóa")]
+        [Display(Name = "Key Giải Mã")]
         public IFormFile KeyDecrypt { get; set; }
 
-////////////////////////////////////////// DECRYPTING FILE ///////////////////////////////////
+
+        // MODULE 3 //
+        ////////////////////////////////////////// MODULE: DECRYPTING FILE(AES) ///////////////////////////////////
         public void DecryptFile(string inputFile, string outputFile, byte[] Key, byte[] IV)
         {
             // Kiểm tra tham số 
@@ -61,6 +63,31 @@ namespace Cryptography.Pages {
                 }
             }
         }
+        ////////////////////////////////////////// MODULE: DECRYPTING FILE(AES) ///////////////////////////////////
+
+
+
+
+        // MODULE 6 //
+        ////////////////////////////////////////// MODULE: DECRYPTING STRING(RSA) ///////////////////////////////////
+         public byte[] DecryptString(byte[] cipher, byte[] privateKey){
+            using (RSA rsa = RSA.Create()){
+                rsa.ImportRSAPrivateKey(privateKey, out _);
+                return rsa.Decrypt(cipher, RSAEncryptionPadding.OaepSHA256);
+            }
+        }
+        ////////////////////////////////////////// MODULE: DECRYPTING STRING(RSA) ///////////////////////////////////
+
+
+
+        // MODULE 7 //
+        ////////////////////////////////////////// MODULE: HASHING STRING ///////////////////////////////////
+        public byte[] HashString(byte[] message){
+            // Hash voi dang SHA-256
+            return SHA256.HashData(message);
+        }
+        ////////////////////////////////////////// HASHING STRING ///////////////////////////////////
+        
 
       
         public string StatusMessage { get; set; } ="";
@@ -86,8 +113,8 @@ namespace Cryptography.Pages {
                     
                     // Decode tu Base64 ve byte[]
                     privateKey = Convert.FromBase64String(keyStr);
-                    // Hash private Key SHA-1
-                    byte[] HashPrivateKey = SHA1.HashData(privateKey);
+                    // Hash private Key SHA-256
+                    byte[] HashPrivateKey = HashString(privateKey);
                     
                     //////////////////////// Kiem tra Hash Co giong nhau khong ////////////////
                     // Lay Hash tu trong keysaver
@@ -131,12 +158,7 @@ namespace Cryptography.Pages {
 
                     byte[] IVBytes = Convert.FromBase64String(json.IV);
 
-                    using (RSA rsa = RSA.Create()){
-                        rsa.ImportRSAPrivateKey(privateKey, out _);
-                        // RSAParameters privateKeyParameters = 
-                        // Giải mã Ks
-                        Ks = rsa.Decrypt(KxBytes, RSAEncryptionPadding.OaepSHA256);
-                    }
+                    Ks = DecryptString(KxBytes,privateKey);
                     // Giải mã file với Ks
                     using (Aes myAes = Aes.Create())
                     {
