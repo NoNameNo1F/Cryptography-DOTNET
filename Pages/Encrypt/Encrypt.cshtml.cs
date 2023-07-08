@@ -25,7 +25,23 @@ namespace Cryptography.Pages {
         public byte[] AESKey { get; set; } 
         [Display(Name = "IV")]
         public byte[] IV { get; set; } 
-////////////////////////////////////////// ENCRYPTING FILE ///////////////////////////////////
+        /////////////////////// MODULE SỬ DỤNG /////////////////////
+        // MODULE 1 , MODULE 2 , MODULE 4 , MODULE 5 , MODULE 7   //
+        ////////////////////////////////////////////////////////////
+   // MODULE 1 //
+        ////////////////////////////////////////// MODULE: GENERATE KS ///////////////////////////////////
+        public string GenerateKs(){
+            using (Aes myAes = Aes.Create()){
+                return Convert.ToBase64String(myAes.Key);
+            }
+        }
+        ////////////////////////////////////////// MODULE: GENERATE KS ///////////////////////////////////
+
+
+
+
+        // MODULE 2 //
+        ////////////////////////////////////////// MODULE: ENCRYPTING FILE(AES) ///////////////////////////////////
         public void EncryptFile(string inputFile, string outputFile, byte[] Key, byte[] IV)
         {
             // Kiểm tra tham số 
@@ -55,36 +71,58 @@ namespace Cryptography.Pages {
                 }
             }
         }
-        ////////////////////////////////////////// ENCRYPTING FILE ///////////////////////////////////
-  
-        ////////////////////////////////////////// HASHING PRIVATE KEY ///////////////////////////////////
-        public byte[] HashPrivateKey(byte[] privateK){
-            // Hash voi dang SHA-1
-            return SHA1.HashData(privateK);
+        ////////////////////////////////// MODULE: ENCRYPTING FILE(AES) ///////////////////////////////////
+
+
+
+
+        // MODULE 4 //
+        ////////////////////////////////////////// MODULE: GENERATE RSA KEY ///////////////////////////////////
+        public string GenerateRSAKey(){
+            using (RSA rsa = RSA.Create()){
+                byte[] pubKey = rsa.ExportRSAPublicKey();
+                byte[] privateKey = rsa.ExportRSAPrivateKey();
+                return "Public Key: " + Convert.ToBase64String(pubKey) + 
+                                "\nPrivate Key: " + Convert.ToBase64String(privateKey);
+            }
         }
-        ////////////////////////////////////////// HASHING PRIVATE KEY ///////////////////////////////////
+        ////////////////////////////////////////// MODULE: GENERATE RSA KEY  ///////////////////////////////////
+
+
+
+
+        // MODULE 5 //
+        ////////////////////////////////////////// MODULE: ENCRYPTING STRING(RSA) ///////////////////////////////////
+        public byte[] EncryptString(byte[] message, byte[] publicKey){
+            using (RSA rsa = RSA.Create()){
+                rsa.ImportRSAPublicKey(publicKey, out _);
+                return rsa.Encrypt(message, RSAEncryptionPadding.OaepSHA256);
+            }
+        }
+        ////////////////////////////////////////// MODULE: ENCRYPTING STRING(RSA) ///////////////////////////////////
+
+
+
+        // MODULE 7 //
+        ////////////////////////////////////////// MODULE: HASHING STRING ///////////////////////////////////
+        public byte[] HashString(byte[] message){
+            // Hash voi dang SHA-256
+            return SHA256.HashData(message);
+        }
+        ////////////////////////////////////////// HASHING STRING ///////////////////////////////////
+        
         public string StatusMessage { get; set; } ="";
         public IActionResult OnGet()
         {
             return Page();
         }
         
-        // public async Task<IActionResult> OnPostAsync(){
-        /////////////////////////////////////////==FLOW HANDLE==//////////////////////////////////////////
-        // Mã hóa File với AES                           (DONE)                                         //
-        // Lưu file vào folder ./encrypted                (DONE)                                        //
-        // Sinh khóa PubKey va PrivateKey                                                               //
-        // Mã AES key bằng PubKey ==> Kx                                                                //
-        // Dùng SHA-1 Hash PrivateKey ==>HKPrivate  Key                                                 //
-        // lưu json 2 key trên vào 1 file {"Kx": ???,"HKPrivate: ???"}                                  //
-        // He thong xuat ra PrivateKey  ==>                                                             //
-        /////////////////////////////////////////==FLOW HANDLE==//////////////////////////////////////////
         public void OnPost(){
         // public void OnPost(){
             if (ModelState.IsValid == true)
             {
 
-//1 Lưu file tải xuống để mã hóa
+                //1 Lưu file tải xuống để mã hóa
                 bool flag = false;
                 if(FileUpload != null){
                     flag = true;
@@ -96,7 +134,7 @@ namespace Cryptography.Pages {
                     fs.Close();
                 }
 
-// 2 Mã File được tải lên với AES Key và file được lưu lại vào trong folder /encrypted
+                // 2 Mã File được tải lên với AES Key và file được lưu lại vào trong folder /encrypted
                 byte[] Kx = new byte[0];
                 byte[] HKPrivate = new byte[0];
                 byte[] kPrivate = new byte[0];
@@ -108,7 +146,6 @@ namespace Cryptography.Pages {
                     using (Aes myAes = Aes.Create())
                     {
                         EncryptFile(filePath, fileEncryptPath, myAes.Key , myAes.IV);
-                        //AESKey = System.Text.Encoding.Default.GetString(myAes.Key);
                         AESKey = myAes.Key;
                         IV = myAes.IV;
                     }
@@ -119,9 +156,9 @@ namespace Cryptography.Pages {
                     using (RSA rsa = RSA.Create()){
                         byte[] kPublic = rsa.ExportRSAPublicKey();
                         kPrivate = rsa.ExportRSAPrivateKey();
-                        //Kx = rsa.EncryptValue(AESKey);
-                        Kx = rsa.Encrypt(AESKey, RSAEncryptionPadding.OaepSHA256);
-                        HKPrivate = HashPrivateKey(kPrivate);
+                        
+                        Kx = EncryptString(AESKey,kPublic);
+                        HKPrivate = HashString(kPrivate);
                     }
 
                     // Tao json va luu vao file: Kx và HKPrivate
