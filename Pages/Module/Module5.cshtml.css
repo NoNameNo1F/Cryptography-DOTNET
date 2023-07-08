@@ -1,0 +1,67 @@
+section {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background: #111111;
+}
+
+
+.module-text {
+    background: #1d0600;
+    padding: 2rem;
+    font: 30px/30px DIN_Bold,Arial,Verdana,sans-serif;
+  }
+.module-img {
+    min-height: 30rem;
+    background-size: cover;
+  }
+  @media (min-width: 768px) {
+    .module-text {
+      padding: 7rem;
+    }
+  }
+  /* @media (min-height: 675px) {
+    .login .login-text {
+      padding: 7rem;
+    }
+  } */
+
+  .form-outline {
+    font-family: Roboto,Helvetica,Arial,sans-serif;
+  }
+  input{
+    border: none;        /* Remove default borders */
+    padding: 4px 8px;
+    border-radius: 5px; /* Sadly outline does not round! therefore...*/
+  }
+
+  input:focus {
+    outline:#d76c47;      /* Remove default outline and use border or box-shadow */
+    box-shadow: 0 0 0 2px #d76c47; /* Full freedom. (works also with border-radius) */
+    border-width: 3px;
+  }
+
+label {
+    font: 15px/15px DIN_Bold,Arial,Verdana,sans-serif;
+    font-weight: 700;
+  }
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:focus {
+    color: #1d0600;
+    outline: none;      /* Remove default outline and use border or box-shadow */
+    box-shadow: 0 0 0 2px #d76c47; /* Full freedom. (works also with border-radius) */ 
+    border-width: 3px;
+    background-color: #d76c47;
+    border-color: #d76c47;
+    /* padding: 0 50px; */
+}
+
+.btn-primary {
+    font-weight: 700;
+    outline:#111111; 
+    border-width: 3px;
+    background-color: transparent;
+    border-color: #eeeeee;
+    padding: 0 calc(41.6666667%);
+}
