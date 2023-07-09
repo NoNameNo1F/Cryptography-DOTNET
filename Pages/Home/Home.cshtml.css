@@ -16,6 +16,27 @@ section.containerHeader {
     padding-top: 8rem;
     padding-bottom: 8rem;
 }
+.table{
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+.table-style{
+  padding-left: 30px;
+  border: 3px solid #240700;
+  font-weight: 700;
+  background: #ffffff;
+  
+}
+tr{
+  padding: 10px;
+}
+tr:hover, th.t-header:hover, td.t-header:hover{
+  color: #ffffff;
+  background-color: #F8A145;
+}
+
  .header-text{
   background: linear-gradient(to right,#d76c47, #F8A145);
   text-align: center; 

@@ -19,14 +19,72 @@
     <!-- Landing-Body Grid-->
     
     <!-- Image Showcases-->
-    <section class="showcase">
+    <section class="showcase mb-5">
         <div class="container-fluid p-0">
-            <div class="row g-0 mb-5 pt-2 text-center" style="color: #eeeeee; background: #240700;">
-                <h2>Mô hình tổng quát</h2>
-                <div class=" showcase-img" style="background: url('bg-showcase.png') no-repeat center center; background-size: 100% 100%;"></div>
-
+            <div class="row">
+                <div class="col-lg-4 mt-2">
+                    <h2 class="text-center mb-3 mt-2" style="color: #F8A145;">Thông tin người dùng</h2>
+                    
+                    <div class="table p-0">
+                        <table class="table-style">
+                            <tr class="m-2">
+                                <th class="t-header m-2 p-3" >
+                                    Trường Header
+                                </th>
+                                <th class="t-header m-2 p-3">
+                                    Thông tin
+                                </th>
+                            </tr>
+                            @{
+                                // Xử lý thông tin header từ Ipinfo
+                                var ip = Model.userIpinfo;
+                                string VPN = "", Proxy = "", Tor = "";
+                                if(ip.Privacy == null){
+                                    VPN = Proxy = Tor = "Không";
+                                }
+                                string Headers = Request.Headers["User-Agent"].ToString();
+                                
+                                string OS = Model.GetOperatingSystem(Headers);
+                                string Browser = Model.GetBrowser(Headers);
+                                
+                                var json = new Dictionary<string, object>(){
+                                    {"IP", ip.IP},
+                                    {"OS", OS},
+                                    {"Browser", Browser},
+                                    {"Country", ip.Country},
+                                    {"Region", ip.Region},
+                                    {"City", ip.City},
+                                    {"Location", ip.Loc},
+                                    {"Timezone", ip.Timezone},
+                                    {"VPN", VPN},
+                                    {"Proxy", Proxy},
+                                    {"Tor", Tor},
+                                    {"ASN", ip.Org}
+                                };
+                                
+                                foreach( string key in json.Keys){
+                                    <tr class="m-2">
+                                        <td class="t-header m-2 p-2">
+                                            @key
+                                        </td>
+                                        <td class="m-2 p-2">
+                                            @json[key]
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                    </div>
+                </div>
+                <div class="col-lg-8" style="border-left: 2px solid #240700;">
+                    <h2 class="text-center mb-3 pt-2" style="color: #eeeeee; background: #240700;">Mô hình tổng quát</h2>
+                    <div class="showcase-img" style="background: url('bg-showcase.png') no-repeat center center; background-size: 100% 100%;"></div>
                 </div>
             </div>
+        </div>
+    </section>
+    <section class="showcase">
+        <div class="container-fluid p-0">
             <div class="row g-0" style="background: #240700;">
                 <div class="col-lg-6 order-lg-2 showcase-img" style="background: url('bg-encrypt.jpg') no-repeat center center; background-size: 100% 100%;"></div>
                 <div class="col-lg-6 order-lg-1 my-auto showcase-text" style=" color: #d76c47">
